@@ -28,7 +28,6 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
             "/api/farmers/login",
             "/api/runners/register",
             "/api/runners/login",
-            "/api/admin/register",
             "/api/admin/login"
     );
 
@@ -40,6 +39,10 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String path = exchange.getRequest().getURI().getPath();
+
+        String path = exchange.getRequest().getURI().getPath();
+
+        String method = exchange.getRequest().getMethod().toString();
 
         if (isPublicEndpoint(path)){
             return chain.filter(exchange);
@@ -63,6 +66,31 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
                     .parseClaimsJws(token)
                     .getBody();
 
+            String role = claims.get("role",String.class);
+
+            if (isAdminOnlyEndpoint(path)) {
+                if (!role.equals("ADMIN")) {
+                    exchange.getResponse()
+                            .setStatusCode(HttpStatus.FORBIDDEN);
+                    return exchange.getResponse().setComplete();
+                }
+            }
+
+            if (isFarmerOnlyEndpoint(path, method)) {
+                if (!role.equals("FARMER")) {
+                    exchange.getResponse()
+                            .setStatusCode(HttpStatus.FORBIDDEN);
+                    return exchange.getResponse().setComplete();
+                }
+            }
+            if (isUserOnlyEndpoint(path, method)) {
+                if (!role.equals("CONSUMER")) {
+                    exchange.getResponse()
+                            .setStatusCode(HttpStatus.FORBIDDEN);
+                    return exchange.getResponse().setComplete();
+                }
+            }
+
             ServerWebExchange modifiedExchange = exchange.mutate()
                     .request(exchange.getRequest().mutate()
                     .header("X-User-Email",claims.getSubject())
@@ -72,10 +100,15 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
                     .build();
 
             return chain.filter(modifiedExchange);
-        }catch (Exception e){
+        }catch (ExpiredJwtException e) {
+            
             exchange.getResponse()
                     .setStatusCode(HttpStatus.UNAUTHORIZED);
-
+            return exchange.getResponse().setComplete();
+        } catch (Exception e) {
+            
+            exchange.getResponse()
+                    .setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
         }
     }
@@ -84,6 +117,22 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
         return PUBLIC_ENDPOINTS.stream()
                 .anyMatch(path::equals);
     }
+
+    private boolean isAdminOnlyEndpoint(String path) {
+        return path.startsWith("/api/admin/");
+       
+    }
+    private boolean isFarmerOnlyEndpoint(
+            String path, String method) {
+        return path.equals("/api/products")
+                && method.equals("POST");
+    }
+    private boolean isUserOnlyEndpoint(
+            String path, String method) {
+        return path.equals("/api/orders")
+                && method.equals("POST");
+    }
+
 
     @Override
     public int getOrder() {
