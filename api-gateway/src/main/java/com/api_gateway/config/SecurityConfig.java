@@ -22,7 +22,6 @@ public class SecurityConfig {
                                 "/api/farmers/login",
                                 "/api/runners/register",
                                 "/api/runners/login",
-                                "/api/admin/register",
                                 "/api/admin/login"
                         ).permitAll()
                         .anyExchange().permitAll()
