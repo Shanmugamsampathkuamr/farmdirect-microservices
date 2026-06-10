@@ -1,0 +1,28 @@
+# Maven - skip large build folders
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Logs
+*.log
+logs/
+
+# Environment
+.env
+*.env
+
+# Docker
+.docker/
+
+# OS files
+.DS_Store
+Thumbs.db
