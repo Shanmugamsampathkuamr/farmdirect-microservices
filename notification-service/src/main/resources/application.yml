@@ -1,13 +1,13 @@
 server:
-  port: 8088
+  port: port
 
 spring:
   application:
     name: notification-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/farmdirect_notifications
-    username: postgres
-    password: sampath12222@
+    url: jdbc:url
+    username: username
+    password: password@
   jpa:
     hibernate:
       ddl-auto: update
@@ -16,7 +16,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: localhost:port
     consumer:
       group-id: notification-group
       auto-offset-reset: earliest
@@ -29,4 +29,4 @@ eureka:
     prefer-ip-address: true
   client:
     service-url:
-      defaultZone: http://discovery-service:8761/eureka/
+      defaultZone: http://discovery-service:port/eureka/
