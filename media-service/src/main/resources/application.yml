@@ -1,13 +1,13 @@
 server:
-  port: 8089
+  port: port
 
 spring:
   application:
     name: media-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/farmdirect_media
-    username: postgres
-    password: sampath12222@
+    url: jdbc:url
+    username: username
+    password: password
   jpa:
     hibernate:
       ddl-auto: update
@@ -21,9 +21,9 @@ spring:
       max-request-size: 50MB
 
 cloudinary:
-  cloud-name: du3vjsl6a
-  api-key: 726778151121488
-  api-secret: IXjX3aE0i6gmXCeMU114modYN3o
+  cloud-name: your cloud name
+  api-key: api key
+  api-secret: secretapi
 
 
 eureka:
@@ -31,4 +31,4 @@ eureka:
     prefer-ip-address: true
   client:
     service-url:
-      defaultZone: http://discovery-service:8761/eureka/
+      defaultZone: http://discovery-service:port/eureka/
