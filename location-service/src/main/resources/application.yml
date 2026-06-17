@@ -1,13 +1,13 @@
 server:
-  port: 8087
+  port: port
 
 spring:
   application:
     name: location-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/farmdirect_locations
-    username: postgres
-    password: sampath12222@
+    url: jdbc:url
+    username: username
+    password: password@
 
   jpa:
     hibernate:
@@ -23,4 +23,4 @@ eureka:
     prefer-ip-address: true
   client:
     service-url:
-      defaultZone: http://discovery-service:8761/eureka/
+      defaultZone: http://discovery-service:port/eureka/
