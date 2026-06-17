@@ -5,9 +5,9 @@ spring:
   application:
     name: order-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/farmdirect_orders
-    username: postgres
-    password: sampath12222@
+    url: jdbc:url
+    username: username
+    password: password@
   jpa:
     hibernate:
       ddl-auto: update
