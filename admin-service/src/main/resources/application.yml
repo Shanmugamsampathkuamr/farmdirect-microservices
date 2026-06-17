@@ -5,9 +5,9 @@ spring:
   application:
     name: admin-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/farmdirect_admins
-    username: postgres
-    password: sampath12222@
+    url: your-server-url-with-dbname
+    username: usernameofDB
+    password: password
   jpa:
     hibernate:
       ddl-auto: update
@@ -26,4 +26,4 @@ eureka:
     prefer-ip-address: true
   client:
     service-url:
-      defaultZone: http://discovery-service:8761/eureka/
+      defaultZone: http://discovery-service:your-pre/eureka/
