@@ -5,9 +5,9 @@ spring:
   application:
     name: runner-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/farmdirect_runners
-    username: postgres
-    password: sampath12222@
+    url: url
+    username: username
+    password: password@
   jpa:
     hibernate:
       ddl-auto: update
